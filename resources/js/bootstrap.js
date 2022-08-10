@@ -1,3 +1,4 @@
+import router from "./router";
 window._ = require('lodash');
 
 try {
@@ -13,7 +14,19 @@ try {
 window.axios = require('axios');
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
+// Из документации Sanctum
 window.axios.defaults.withCredentials = true;
+// Фиксация ошибок при неавторизованном входе на недоступные страницы (последний урок по Sanctum)
+window.axios.interceptors.response.use( {}, err => {
+    if (err.response.status === 401 || err.response.status === 419) {
+        const token = localStorage.getItem('x-xsrf_token')
+        if (token) {
+            localStorage.removeItem('x_xsrf_token')
+        }
+        router.push({name: 'user.login'})
+    }
+})
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening

@@ -1,10 +1,10 @@
 <template>
-    <div>
-        <input v-model="name" type="name" placeholder="name" class="form-control">
-        <input v-model="email" type="email" placeholder="email" class="form-control">
-        <input v-model="password" type="password" placeholder="password" class="form-control">
+    <div class="w-25">
+        <input v-model="name" type="name" placeholder="name" class="form-control mt-3 mb-3">
+        <input v-model="email" type="email" placeholder="email" class="form-control mb-3">
+        <input v-model="password" type="password" placeholder="password" class="form-control mb-3">
         <input v-model="password_confirmation" type="password" placeholder="password_confirmation"
-               class="form-control">
+               class="form-control mb-3">
         <input @click.prevent="register" type="submit" value="register" class="btn btn-primary">
     </div>
 </template>
@@ -35,7 +35,12 @@ export default {
                     password_confirmation: this.password_confirmation
                 })
                 .then ( res => {
-                    console.log(res);
+
+                    // ПОмещаем полученный токен в ЛокалСторадже
+                    localStorage.setItem('x_xsrf_token', res.config.headers['X-XSRF-TOKEN'])
+
+                    // Редирект
+                    this.$router.push({name: 'user.personal'})
                 })
             })
         }

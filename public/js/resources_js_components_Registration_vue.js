@@ -45,7 +45,12 @@ __webpack_require__.r(__webpack_exports__);
           password: _this.password,
           password_confirmation: _this.password_confirmation
         }).then(function (res) {
-          console.log(res);
+          // ПОмещаем полученный токен в ЛокалСторадже
+          localStorage.setItem('x_xsrf_token', res.config.headers['X-XSRF-TOKEN']); // Редирект
+
+          _this.$router.push({
+            name: 'user.personal'
+          });
         });
       });
     }
@@ -138,7 +143,7 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
+  return _c("div", { staticClass: "w-25" }, [
     _c("input", {
       directives: [
         {
@@ -148,7 +153,7 @@ var render = function () {
           expression: "name",
         },
       ],
-      staticClass: "form-control",
+      staticClass: "form-control mt-3 mb-3",
       attrs: { type: "name", placeholder: "name" },
       domProps: { value: _vm.name },
       on: {
@@ -170,7 +175,7 @@ var render = function () {
           expression: "email",
         },
       ],
-      staticClass: "form-control",
+      staticClass: "form-control mb-3",
       attrs: { type: "email", placeholder: "email" },
       domProps: { value: _vm.email },
       on: {
@@ -192,7 +197,7 @@ var render = function () {
           expression: "password",
         },
       ],
-      staticClass: "form-control",
+      staticClass: "form-control mb-3",
       attrs: { type: "password", placeholder: "password" },
       domProps: { value: _vm.password },
       on: {
@@ -214,7 +219,7 @@ var render = function () {
           expression: "password_confirmation",
         },
       ],
-      staticClass: "form-control",
+      staticClass: "form-control mb-3",
       attrs: { type: "password", placeholder: "password_confirmation" },
       domProps: { value: _vm.password_confirmation },
       on: {
